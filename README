@@ -2,3 +2,6 @@
 Coming soon...
 Stay tuned.
 
+gcc -static udp0srv.c    -o udp0srv
+gcc -static cpswaleset.c -o cpswaleset
+gcc -static cpswaleget.c -o cpswaleget

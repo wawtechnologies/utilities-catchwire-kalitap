@@ -25,21 +25,22 @@
 int
 main(int argc, char **argv)
 {
-  int sockfd;                    /* socket */
-  int portno;                    /* port to listen on */
+  int sockfd;                    /* socket                        */
+  int portno;                    /* port to listen on             */
   int clientlen;                 /* byte size of client's address */
-  struct sockaddr_in serveraddr; /* server's addr */
-  struct sockaddr_in clientaddr; /* client addr */
-  char buf[BUFSIZE];             /* message buf */
-  int optval;                    /* flag value for setsockopt */
-  int n;                         /* message byte size */
+  struct sockaddr_in serveraddr; /* server's addr                 */
+  struct sockaddr_in clientaddr; /* client addr                   */
+  char buf[BUFSIZE];             /* message buf                   */
+  int optval;                    /* flag value for setsockopt     */
+  int n;                         /* message byte size             */
 
   /* 
    * Check command line arguments 
    */
-  if (argc != 2) {
+  if (argc != 2)
+  {
     fprintf(stderr, "Usage: %s <port>\n", argv[0]);
-    exit(1);
+    exit   (EXIT_FAILURE);
   }
 
   portno = atoi(argv[1]);
@@ -52,7 +53,7 @@ main(int argc, char **argv)
   if (sockfd < 0) 
   {
     perror("ERROR opening socket");
-    exit(1);
+    exit  (EXIT_FAILURE);
   }
 
   /* Setsockopt: Handy debugging trick that lets 
@@ -78,8 +79,8 @@ main(int argc, char **argv)
   if (bind(sockfd, (struct sockaddr *) &serveraddr, 
 	            sizeof(serveraddr)) < 0) 
   {
-    perror("ERROR on binding");
-    exit(1);
+    perror("ERROR on socket bind");
+    exit  (EXIT_FAILURE);
   }
 
   /* 
@@ -93,7 +94,7 @@ main(int argc, char **argv)
     if (n < 0)
     {
       perror("ERROR in recvfrom");
-      exit(1);
+      exit  (EXIT_FAILURE);
     }
 
     /* Do nothing */
