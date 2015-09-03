@@ -2,6 +2,23 @@
 Coming soon...
 Stay tuned.
 
+Temprary Notes:
+---------------
+
 gcc -static udp0srv.c    -o udp0srv
 gcc -static cpswaleset.c -o cpswaleset
 gcc -static cpswaleget.c -o cpswaleget
+
+apt-get install bison flex libpcap-dev
+cd rpcapd/winpcap/wpcap/libpcap
+make distclean
+cd rpcapd
+make clean
+cd ../
+autoconf
+CFLAGS=-static ./configure
+make
+cd rpcapd
+make
+cp ./rpcapd /usr/local/sbin/
+
