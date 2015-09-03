@@ -10,7 +10,7 @@ gcc -static cpswaleset.c -o cpswaleset
 gcc -static cpswaleget.c -o cpswaleget
 
 apt-get install bison flex libpcap-dev
-cd rpcapd/winpcap/wpcap/libpcap
+cd winpcap/wpcap/libpcap
 make distclean
 cd rpcapd
 make clean
