@@ -51,7 +51,25 @@ main(int argc, char *argv[])
 
   if ((opt == -1) || (opt == '?'))
   {
+    fprintf(stderr, "\n");
     fprintf(stderr, "Usage: %s <register>\n", argv[0]);
+    fprintf(stderr, "\n");
+    fprintf(stderr, "--idver\n");
+    fprintf(stderr, "--control\n");
+    fprintf(stderr, "--prescale\n");
+    fprintf(stderr, "--unknown_vlan\n");
+    fprintf(stderr, "--tblctl\n");
+    fprintf(stderr, "--tblw2\n");
+    fprintf(stderr, "--tblw1\n");
+    fprintf(stderr, "--tblw0\n");
+    fprintf(stderr, "--portctl0\n");
+    fprintf(stderr, "--portctl1\n");
+    fprintf(stderr, "--portctl2\n");
+    fprintf(stderr, "--portctl3\n");
+    fprintf(stderr, "--portctl4\n");
+    fprintf(stderr, "--portctl5\n");
+    fprintf(stderr, "--all\n");
+    fprintf(stderr, "\n");
     exit   (EXIT_FAILURE);
   }
 
