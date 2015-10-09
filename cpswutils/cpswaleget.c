@@ -1,6 +1,6 @@
 
 /*
- * cpswaleset.c - CPSW ALE Register Get Utility
+ * cpswaleget.c - CPSW ALE Registers Get Utility
  *
  * Usage : cpswaleget <register>
  * Author: Alexander Zakharov, WAW Technologies Inc.

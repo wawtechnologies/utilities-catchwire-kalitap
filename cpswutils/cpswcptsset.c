@@ -1,10 +1,10 @@
 
 /*
- * cpswaleset.c - CPSW ALE Registers Set Utility
+ * cpswcptsset.c - CPSW CPTS Registers Set Utility
  *
- * Usage : cpswaleset <register> <value>
+ * Usage : cpswcptsset <register> <value>
  * Author: Alexander Zakharov, WAW Technologies Inc.
- * Date  : September, 2015
+ * Date  : October, 2015
  */
 
 
@@ -29,20 +29,14 @@ main(int argc, char *argv[])
 
   static struct option long_options[] =
   {
-    {"control"     , required_argument, 0, ALE_CONTROL     },
-    {"prescale"    , required_argument, 0, ALE_PRESCALE    },
-    {"unknown_vlan", required_argument, 0, ALE_UNKNOWN_VLAN},
-    {"tblctl"      , required_argument, 0, ALE_TBLCTL      },
-    {"tblw2"       , required_argument, 0, ALE_TBLW2       },
-    {"tblw1"       , required_argument, 0, ALE_TBLW1       },
-    {"tblw0"       , required_argument, 0, ALE_TBLW0       },
-    {"portctl0"    , required_argument, 0, ALE_PORTCTL0    },
-    {"portctl1"    , required_argument, 0, ALE_PORTCTL1    },
-    {"portctl2"    , required_argument, 0, ALE_PORTCTL2    },
-    {"portctl3"    , required_argument, 0, ALE_PORTCTL3    },
-    {"portctl4"    , required_argument, 0, ALE_PORTCTL4    },
-    {"portctl5"    , required_argument, 0, ALE_PORTCTL5    },
-    {0             , 0                , 0, 0               }
+    {"control"    , required_argument, 0, CPTS_CONTROL    },
+    {"ts_push"    , required_argument, 0, CPTS_TS_PUSH    },
+    {"ts_load_val", required_argument, 0, CPTS_TS_LOAD_VAL},
+    {"ts_load_en" , required_argument, 0, CPTS_TS_LOAD_EN },
+    {"intstat_raw", required_argument, 0, CPTS_INTSTAT_RAW},
+    {"int_enable" , required_argument, 0, CPTS_INT_ENABLE },
+    {"event_pop"  , required_argument, 0, CPTS_EVENT_POP  },
+    {0            , 0                , 0, 0               }
   };
 
   opt = getopt_long(argc, argv, "", long_options, &long_index);
@@ -53,18 +47,12 @@ main(int argc, char *argv[])
     fprintf(stderr, "Usage: %s <register> <hex value>\n", argv[0]);
     fprintf(stderr, "\n");
     fprintf(stderr, "--control\n");
-    fprintf(stderr, "--prescale\n");
-    fprintf(stderr, "--unknown_vlan\n");
-    fprintf(stderr, "--tblctl\n");
-    fprintf(stderr, "--tblw2\n");
-    fprintf(stderr, "--tblw1\n");
-    fprintf(stderr, "--tblw0\n");
-    fprintf(stderr, "--portctl0\n");
-    fprintf(stderr, "--portctl1\n");
-    fprintf(stderr, "--portctl2\n");
-    fprintf(stderr, "--portctl3\n");
-    fprintf(stderr, "--portctl4\n");
-    fprintf(stderr, "--portctl5\n");
+    fprintf(stderr, "--ts_push\n");
+    fprintf(stderr, "--ts_load_val\n");
+    fprintf(stderr, "--ts_load_en\n");
+    fprintf(stderr, "--intstat_raw\n");
+    fprintf(stderr, "--int_enable\n");
+    fprintf(stderr, "--event_pop\n");
     fprintf(stderr, "\n");
     exit   (EXIT_FAILURE);
   }
@@ -127,3 +115,4 @@ main(int argc, char *argv[])
 
   exit (EXIT_SUCCESS);
 }
+

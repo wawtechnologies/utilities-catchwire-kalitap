@@ -111,8 +111,20 @@
 
 
 /* Ethernet Time Sync Module */
-#define CPSW_CPTS_ADDR            0x4A100A00
+#define CPSW_CPTS_ADDR            0x4A100C00
 #define CPSW_CPTS_OFFSET          (CPSW_CPTS_ADDR - CPSW_BASE_ADDR)
+
+#define CPTS_IDVER                (CPSW_CPTS_OFFSET + 0x0000)
+#define CPTS_CONTROL              (CPSW_CPTS_OFFSET + 0x0004)
+#define CPTS_TS_PUSH              (CPSW_CPTS_OFFSET + 0x000C)
+#define CPTS_TS_LOAD_VAL          (CPSW_CPTS_OFFSET + 0x0010)
+#define CPTS_TS_LOAD_EN           (CPSW_CPTS_OFFSET + 0x0014)
+#define CPTS_INTSTAT_RAW          (CPSW_CPTS_OFFSET + 0x0020)
+#define CPTS_INTSTAT_MASKED       (CPSW_CPTS_OFFSET + 0x0024)
+#define CPTS_INT_ENABLE           (CPSW_CPTS_OFFSET + 0x0028)
+#define CPTS_EVENT_POP            (CPSW_CPTS_OFFSET + 0x0030)
+#define CPTS_EVENT_LOW            (CPSW_CPTS_OFFSET + 0x0034)
+#define CPTS_EVENT_HIGH           (CPSW_CPTS_OFFSET + 0x0038)
 
 
 /* Ethernet Address Lookup Engine */
