@@ -151,10 +151,34 @@
 #define CPSW_SL1_ADDR             0x4A100D80
 #define CPSW_SL1_OFFSET           (CPSW_SL1_ADDR - CPSW_BASE_ADDR)
 
+#define SL1_IDVER                 (CPSW_SL1_OFFSET + 0x0000)
+#define SL1_MACCONTROL            (CPSW_SL1_OFFSET + 0x0004)
+#define SL1_MACSTATUS             (CPSW_SL1_OFFSET + 0x0008)
+#define SL1_SOFT_RESET            (CPSW_SL1_OFFSET + 0x000C)
+#define SL1_RX_MAXLEN             (CPSW_SL1_OFFSET + 0x0010)
+#define SL1_BOFFTEST              (CPSW_SL1_OFFSET + 0x0014)
+#define SL1_RX_PAUSE              (CPSW_SL1_OFFSET + 0x0018)
+#define SL1_TX_PAUSE              (CPSW_SL1_OFFSET + 0x001C)
+#define SL1_EMCONTROL             (CPSW_SL1_OFFSET + 0x0020)
+#define SL1_RX_PRI_MAP            (CPSW_SL1_OFFSET + 0x0024)
+#define SL1_TX_GAP                (CPSW_SL1_OFFSET + 0x0028)
+
 
 /* Ethernet Sliver for Port #2 */
 #define CPSW_SL2_ADDR             0x4A100DC0
 #define CPSW_SL2_OFFSET           (CPSW_SL2_ADDR - CPSW_BASE_ADDR)
+
+#define SL2_IDVER                 (CPSW_SL2_OFFSET + 0x0000)
+#define SL2_MACCONTROL            (CPSW_SL2_OFFSET + 0x0004)
+#define SL2_MACSTATUS             (CPSW_SL2_OFFSET + 0x0008)
+#define SL2_SOFT_RESET            (CPSW_SL2_OFFSET + 0x000C)
+#define SL2_RX_MAXLEN             (CPSW_SL2_OFFSET + 0x0010)
+#define SL2_BOFFTEST              (CPSW_SL2_OFFSET + 0x0014)
+#define SL2_RX_PAUSE              (CPSW_SL2_OFFSET + 0x0018)
+#define SL2_TX_PAUSE              (CPSW_SL2_OFFSET + 0x001C)
+#define SL2_EMCONTROL             (CPSW_SL2_OFFSET + 0x0020)
+#define SL2_RX_PRI_MAP            (CPSW_SL2_OFFSET + 0x0024)
+#define SL2_TX_GAP                (CPSW_SL2_OFFSET + 0x0028)
 
 
 /* Ethernet MDIO Controller */

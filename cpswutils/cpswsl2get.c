@@ -1,8 +1,8 @@
 
 /*
- * cpswcptsget.c - CPSW CPTS Registers Get Utility
+ * cpsws2get.c - CPSW SL2 Registers Get Utility
  *
- * Usage : cpswcptsget <register>
+ * Usage : cpswsl2get <register>
  * Author: Alexander Zakharov, WAW Technologies Inc.
  * Date  : October, 2015
  */
@@ -29,19 +29,19 @@ main(int argc, char *argv[])
 
   static struct option long_options[] =
   {
-    {"idver"         , no_argument, 0, CPTS_IDVER         },
-    {"control"       , no_argument, 0, CPTS_CONTROL       },
-    {"ts_push"       , no_argument, 0, CPTS_TS_PUSH       },
-    {"ts_load_val"   , no_argument, 0, CPTS_TS_LOAD_VAL   },
-    {"ts_load_en"    , no_argument, 0, CPTS_TS_LOAD_EN    },
-    {"intstat_raw"   , no_argument, 0, CPTS_INTSTAT_RAW   },
-    {"intstat_masked", no_argument, 0, CPTS_INTSTAT_MASKED},
-    {"int_enable"    , no_argument, 0, CPTS_INT_ENABLE    },
-    {"event_pop"     , no_argument, 0, CPTS_EVENT_POP     },
-    {"event_low"     , no_argument, 0, CPTS_EVENT_LOW     },
-    {"event_high"    , no_argument, 0, CPTS_EVENT_HIGH    },
-    {"all"           , no_argument, 0, CPSW_BASE_SIZE     },
-    {0               , 0          , 0, 0                  }
+    {"idver"     , no_argument, 0, SL2_IDVER     },
+    {"maccontrol", no_argument, 0, SL2_MACCONTROL},
+    {"macstatus" , no_argument, 0, SL2_MACSTATUS },
+    {"soft_reset", no_argument, 0, SL2_SOFT_RESET},
+    {"rx_maxlen" , no_argument, 0, SL2_RX_MAXLEN },
+    {"bofftest"  , no_argument, 0, SL2_BOFFTEST  },
+    {"rx_pause"  , no_argument, 0, SL2_RX_PAUSE  },
+    {"tx_pause"  , no_argument, 0, SL2_TX_PAUSE  },
+    {"emcontrol" , no_argument, 0, SL2_EMCONTROL },
+    {"rx_pri_map", no_argument, 0, SL2_RX_PRI_MAP},
+    {"tx_gap"    , no_argument, 0, SL2_TX_GAP    },
+    {"all"       , no_argument, 0, CPSW_BASE_SIZE},
+    {0           , 0          , 0, 0             }
   };
 
   opt = getopt_long(argc, argv, "", long_options, &long_index);
@@ -52,16 +52,16 @@ main(int argc, char *argv[])
     fprintf(stderr, "Usage: %s <register>\n", argv[0]);
     fprintf(stderr, "\n");
     fprintf(stderr, "--idver\n");
-    fprintf(stderr, "--control\n");
-    fprintf(stderr, "--ts_push\n");
-    fprintf(stderr, "--ts_load_val\n");
-    fprintf(stderr, "--ts_load_en\n");
-    fprintf(stderr, "--intstat_raw\n");
-    fprintf(stderr, "--intstat_masked\n");
-    fprintf(stderr, "--int_enable\n");
-    fprintf(stderr, "--event_pop\n");
-    fprintf(stderr, "--event_low\n");
-    fprintf(stderr, "--event_high\n");
+    fprintf(stderr, "--maccontrol\n");
+    fprintf(stderr, "--macstatus\n");
+    fprintf(stderr, "--soft_reset\n");
+    fprintf(stderr, "--rx_maxlen\n");
+    fprintf(stderr, "--bofftest\n");
+    fprintf(stderr, "--rx_pause\n");
+    fprintf(stderr, "--tx_pause\n");
+    fprintf(stderr, "--emcontrol\n");
+    fprintf(stderr, "--rx_pri_map\n");
+    fprintf(stderr, "--tx_gap\n");
     fprintf(stderr, "--all\n");
     fprintf(stderr, "\n");
     exit   (EXIT_FAILURE);
@@ -101,17 +101,17 @@ main(int argc, char *argv[])
   if (opt == CPSW_BASE_SIZE)
   {
     fprintf(stdout, "\n");
-    fprintf(stdout, "IDVER          : 0x%08X\n", ptr[CPTS_IDVER         /4]);
-    fprintf(stdout, "CONTROL        : 0x%08X\n", ptr[CPTS_CONTROL       /4]);
-    fprintf(stdout, "TS_PUSH        : 0x%08X\n", ptr[CPTS_TS_PUSH       /4]);
-    fprintf(stdout, "TS_LOAD_VAL    : 0x%08X\n", ptr[CPTS_TS_LOAD_VAL   /4]);
-    fprintf(stdout, "TS_LOAD_EN     : 0x%08X\n", ptr[CPTS_TS_LOAD_EN    /4]);
-    fprintf(stdout, "INTSTAT_RAW    : 0x%08X\n", ptr[CPTS_INTSTAT_RAW   /4]);
-    fprintf(stdout, "INTSTAT_MASKED : 0x%08X\n", ptr[CPTS_INTSTAT_MASKED/4]);
-    fprintf(stdout, "INT_ENABLE     : 0x%08X\n", ptr[CPTS_INT_ENABLE    /4]);
-    fprintf(stdout, "EVENT_POP      : 0x%08X\n", ptr[CPTS_EVENT_POP     /4]);
-    fprintf(stdout, "EVENT_LOW      : 0x%08X\n", ptr[CPTS_EVENT_LOW     /4]);
-    fprintf(stdout, "EVENT_HIGH     : 0x%08X\n", ptr[CPTS_EVENT_HIGH    /4]);
+    fprintf(stdout, "IDVER      : 0x%08X\n", ptr[SL2_IDVER     /4]);
+    fprintf(stdout, "MACCONTROL : 0x%08X\n", ptr[SL2_MACCONTROL/4]);
+    fprintf(stdout, "MACSTATUS  : 0x%08X\n", ptr[SL2_MACSTATUS /4]);
+    fprintf(stdout, "SOFT_RESET : 0x%08X\n", ptr[SL2_SOFT_RESET/4]);
+    fprintf(stdout, "RX_MAXLEN  : 0x%08X\n", ptr[SL2_RX_MAXLEN /4]);
+    fprintf(stdout, "BOFFTEST   : 0x%08X\n", ptr[SL2_BOFFTEST  /4]);
+    fprintf(stdout, "RX_PAUSE   : 0x%08X\n", ptr[SL2_RX_PAUSE  /4]);
+    fprintf(stdout, "TX_PAUSE   : 0x%08X\n", ptr[SL2_TX_PAUSE  /4]);
+    fprintf(stdout, "EMCONTROL  : 0x%08X\n", ptr[SL2_EMCONTROL /4]);
+    fprintf(stdout, "RX_PRI_MAP : 0x%08X\n", ptr[SL2_RX_PRI_MAP/4]);
+    fprintf(stdout, "TX_GAP     : 0x%08X\n", ptr[SL2_TX_GAP    /4]);
     fprintf(stdout, "\n");
   }
   else
