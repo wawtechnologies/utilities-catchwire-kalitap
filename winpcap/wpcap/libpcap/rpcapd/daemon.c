@@ -61,7 +61,7 @@ int daemon_findalldevs(SOCKET sockctrl, char *errbuf);
 
 int daemon_opensource(SOCKET sockctrl, char *source, int srclen, uint32 plen, char *errbuf);
 pcap_t *daemon_startcapture(SOCKET sockctrl, pthread_t *threaddata, char *source, int active, 
-							struct rpcap_sampling *samp_param, uint32 plen, char *errbuf);
+							struct rpcap_sampling *samp_param, uint32 plen, char *errbuf, uint16 caplen);
 int daemon_endcapture(pcap_t *fp, pthread_t *threaddata, char *errbuf);
 
 int daemon_updatefilter(pcap_t *fp, uint32 plen);
@@ -294,7 +294,7 @@ auth_again:
 
 			case RPCAP_MSG_STARTCAP_REQ:
 			{
-				fp= daemon_startcapture(pars->sockctrl, &threaddata, source, pars->isactive, &samp_param, ntohl(header.plen), errbuf);
+				fp= daemon_startcapture(pars->sockctrl, &threaddata, source, pars->isactive, &samp_param, ntohl(header.plen), errbuf, pars->caplen);
 
 				if (fp == NULL)
 					SOCK_ASSERT(errbuf, 1);
@@ -939,7 +939,7 @@ error:
 	\param plen: the length of the current message (needed in order to be able
 	to discard excess data in the message, if present)
 */
-pcap_t *daemon_startcapture(SOCKET sockctrl, pthread_t *threaddata, char *source, int active, struct rpcap_sampling *samp_param, uint32 plen, char *errbuf)
+pcap_t *daemon_startcapture(SOCKET sockctrl, pthread_t *threaddata, char *source, int active, struct rpcap_sampling *samp_param, uint32 plen, char *errbuf, uint16 caplen)
 {
 char portdata[PCAP_BUF_SIZE];		// temp variable needed to derive the data port
 char peerhost[PCAP_BUF_SIZE];		// temp variable needed to derive the host name of our peer
@@ -1124,6 +1124,7 @@ int serveropen_dp;							// keeps who is going to open the data connection
 	pthread_attr_setdetachstate(&detachedAttribute, PTHREAD_CREATE_DETACHED);
 	
 	// Now we have to create a new thread to receive packets
+	fp->caplen = caplen;
 	if ( pthread_create(threaddata, &detachedAttribute, (void *) daemon_thrdatamain, (void *) fp) )
 	{
 		snprintf(errbuf, PCAP_ERRBUF_SIZE, "Error creating the data thread");
@@ -1431,6 +1432,7 @@ struct pcap_pkthdr *pkt_header;		// pointer to the buffer that contains the head
 u_char *pkt_data;					// pointer to the buffer that contains the current packet
 char *sendbuf;						// temporary buffer in which data to be sent is buffered
 int sendbufidx;						// index which keeps the number of bytes currently buffered
+uint16 caplen = 0;
 
 	fp= (pcap_t *) ptr;
 
@@ -1467,8 +1469,16 @@ int sendbufidx;						// index which keeps the number of bytes currently buffered
 			RPCAP_NETBUF_SIZE, SOCKBUF_CHECKONLY, errbuf, PCAP_ERRBUF_SIZE) == -1)
 			goto error;
 
+		if (fp->caplen)
+			if (fp->caplen < pkt_header->caplen)
+				caplen = fp->caplen;
+			else
+				caplen = pkt_header->caplen;
+		else
+			caplen = pkt_header->caplen;
+
 		rpcap_createhdr( (struct rpcap_header *) sendbuf, RPCAP_MSG_PACKET, 0,
-			(uint16) (sizeof(struct rpcap_pkthdr) + pkt_header->caplen) );
+			(uint16) (sizeof(struct rpcap_pkthdr) + caplen));
 
 		net_pkt_header= (struct rpcap_pkthdr *) &sendbuf[sendbufidx];
 
@@ -1477,14 +1487,14 @@ int sendbufidx;						// index which keeps the number of bytes currently buffered
 			RPCAP_NETBUF_SIZE, SOCKBUF_CHECKONLY, errbuf, PCAP_ERRBUF_SIZE) == -1)
 			goto error;
 
-		net_pkt_header->caplen= htonl(pkt_header->caplen);
+		net_pkt_header->caplen= htonl(caplen);
 		net_pkt_header->len= htonl(pkt_header->len);
 		net_pkt_header->npkt= htonl( ++(fp->md.TotCapt) );
 		net_pkt_header->timestamp_sec= htonl(pkt_header->ts.tv_sec);
 		net_pkt_header->timestamp_usec= htonl(pkt_header->ts.tv_usec);
 
 		// Bufferize the pkt data
-		if ( sock_bufferize((char *) pkt_data, pkt_header->caplen, sendbuf, &sendbufidx,
+		if ( sock_bufferize((char *) pkt_data, caplen, sendbuf, &sendbufidx,
 			RPCAP_NETBUF_SIZE, SOCKBUF_BUFFERIZE, errbuf, PCAP_ERRBUF_SIZE) == -1)
 			goto error;
 

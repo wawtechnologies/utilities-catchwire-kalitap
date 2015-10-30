@@ -82,6 +82,7 @@
 	\{
 */
 
+#define RPCAP_DEFAULT_CAPLEN  "0"    /*!< Defaulf packet capture length - 0 means original */
 #define RPCAP_DEFAULT_NETPORT "2002" /*!< Default port on which the RPCAP daemon is waiting for connections. */
 /*! Default port on which the client workstation is waiting for connections in case of active mode. */
 #define RPCAP_DEFAULT_NETPORT_ACTIVE "2003"

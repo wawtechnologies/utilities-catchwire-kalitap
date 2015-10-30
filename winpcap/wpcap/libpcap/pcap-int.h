@@ -365,6 +365,8 @@ struct pcap {
 	struct pcap_samp rmt_samp;	//!< Keeps the parameters related to the sampling process.
 	char *currentfilter;		//!< Pointer to a buffer (allocated at run-time) that stores the current filter. Needed when flag PCAP_OPENFLAG_NOCAPTURE_RPCAP is turned on.
 #endif /* HAVE_REMOTE */
+
+	u_int caplen;
 };
 
 /*

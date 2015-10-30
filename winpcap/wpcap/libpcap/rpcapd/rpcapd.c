@@ -65,6 +65,7 @@ int passivemode= 1;						//!< '1' if we want to run in passive mode as well
 struct addrinfo mainhints;				//!< temporary struct to keep settings needed to open the new socket
 char address[MAX_LINE + 1];				//!< keeps the network address (either numeric or literal) to bind to
 char port[MAX_LINE + 1];				//!< keeps the network port to bind to
+char caplen[MAX_LINE + 1];				//!< packet capture length
 
 extern char *optarg;	// for getopt()
 
@@ -92,6 +93,7 @@ void printusage()
 	"  -b <address>: the address to bind to (either numeric or literal).\n"
     "      Default: it binds to all local IPv4 addresses\n"
 	"  -p <port>: the port to bind to. Default: it binds to port " RPCAP_DEFAULT_NETPORT "\n"
+	"  -S <caplen>: packet capture size\n"
 	"  -4: use only IPv4 (default both IPv4 and IPv6 waiting sockets are used)\n"
 	"  -l <host_list>: a file that keeps the list of the hosts which are allowed\n"
 	"      to connect to this server (if more than one, list them one per line).\n"
@@ -139,6 +141,7 @@ char errbuf[PCAP_ERRBUF_SIZE + 1];	// keeps the error string, prior to be printe
 
 	strncpy(address, RPCAP_DEFAULT_NETADDR, MAX_LINE);
 	strncpy(port, RPCAP_DEFAULT_NETPORT, MAX_LINE);
+	strncpy(caplen, RPCAP_DEFAULT_CAPLEN, MAX_LINE);
 
 	// Prepare to open a new server socket
 	memset(&mainhints, 0, sizeof(struct addrinfo));
@@ -148,10 +151,13 @@ char errbuf[PCAP_ERRBUF_SIZE + 1];	// keeps the error string, prior to be printe
 	mainhints.ai_socktype = SOCK_STREAM;
 
 	// Getting the proper command line options
-	while ((retval = getopt(argc, argv, "b:dhp:4l:na:s:f:v")) != -1)
+	while ((retval = getopt(argc, argv, "S:b:dhp:4l:na:s:f:v")) != -1)
 	{
 		switch (retval)
 		{
+			case 'S':
+				strncpy(caplen, optarg, MAX_LINE);
+				break;
 			case 'b':
 				strncpy(address, optarg, MAX_LINE);
 				break;
@@ -585,6 +591,7 @@ SOCKET sockmain;
 		pars->activeclose= 0;		// useless in passive mode
 		pars->isactive= 0;
 		pars->nullAuthAllowed= nullAuthAllowed;
+		pars->caplen = (uint16) strtoul(caplen,(char **)NULL,10);
 
 		/* GV we need this to create the thread as detached. */
 		/* GV otherwise, the thread handle is not destroyed  */
@@ -613,6 +620,7 @@ SOCKET sockmain;
 			pars->activeclose= 0;		// useless in passive mode
 			pars->isactive= 0;
 			pars->nullAuthAllowed= nullAuthAllowed;
+			pars->caplen = (uint16) strtoul(caplen,(char **)NULL,10);
 
 			// Close the main socket (must be open only in the parent)
 			closesocket(sockmain);
@@ -707,6 +715,7 @@ struct daemon_slpars *pars;			// parameters needed by the daemon_serviceloop()
 		pars->activeclose= 0;
 		pars->isactive= 1;
 		pars->nullAuthAllowed= nullAuthAllowed;
+		pars->caplen = (uint16) strtoul(caplen,(char **)NULL,10);
 
 		daemon_serviceloop( (void *) pars);
 
