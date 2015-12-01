@@ -185,6 +185,21 @@
 #define CPSW_MDIO_ADDR            0x4A101000
 #define CPSW_MDIO_OFFSET          (CPSW_MDIO_ADDR - CPSW_BASE_ADDR)
 
+#define MDIO_VER                  (CPSW_MDIO_OFFSET + 0x0000)
+#define MDIO_CONTROL              (CPSW_MDIO_OFFSET + 0x0004)
+#define MDIO_ALIVE                (CPSW_MDIO_OFFSET + 0x0008)
+#define MDIO_LINK                 (CPSW_MDIO_OFFSET + 0x000C)
+#define MDIO_LINKINTRAW           (CPSW_MDIO_OFFSET + 0x0010)
+#define MDIO_LINKINTMASKED        (CPSW_MDIO_OFFSET + 0x0014)
+#define MDIO_USERINTRAW           (CPSW_MDIO_OFFSET + 0x0020)
+#define MDIO_USERINTMASKED        (CPSW_MDIO_OFFSET + 0x0024)
+#define MDIO_USERINTMASKSET       (CPSW_MDIO_OFFSET + 0x0028)
+#define MDIO_USERINTMASKCLR       (CPSW_MDIO_OFFSET + 0x002C)
+#define MDIO_USERACCESS0          (CPSW_MDIO_OFFSET + 0x0080)
+#define MDIO_USERPHYSEL0          (CPSW_MDIO_OFFSET + 0x0084)
+#define MDIO_USERACCESS1          (CPSW_MDIO_OFFSET + 0x0088)
+#define MDIO_USERPHYSEL1          (CPSW_MDIO_OFFSET + 0x008C)
+
 
 /* Ethernet Subsystem Wrapper for RMII/RGMII */
 #define CPSW_WR_ADDR              0x4A101200
